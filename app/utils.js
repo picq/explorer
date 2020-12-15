@@ -201,13 +201,18 @@ function addThousandsSeparators(x) {
 function formatExchangedCurrency(amount, exchangeType) {
 	if (global.exchangeRates != null) {
 		var dec = new Decimal(amount);
-		if (exchangeType.toLowerCase() === 'usd' && global.exchangeRates['usdt'] != null && global.exchangeRates['usdtusd'] != null) {
-			dec = dec.times(global.exchangeRates['usdt']).times(global.exchangeRates['usdtusd']);
+		if (exchangeType.toLowerCase() === coins.currency.usd && global.exchangeRates[coins.currency.usdt] != null && global.exchangeRates[coins.currency.usdtusd] != null) {
+			dec = dec.times(global.exchangeRates[coins.currency.usdt]).times(global.exchangeRates[coins.currency.usdtusd]);
 			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
-			return "$" + addThousandsSeparators(exchangedAmt);
+			return addThousandsSeparators(exchangedAmt) + " $";
 		}
-		if (exchangeType.toLowerCase() === 'btc' && global.exchangeRates['btc'] != null) {
-			dec = dec.times(global.exchangeRates['btc'])
+		if (exchangeType.toLowerCase() === coins.currency.eur && global.exchangeRates[coins.currency.btceur] !== null && global.exchangeRates[coins.currency.btc] !== null) {
+			dec = dec.times(global.exchangeRates[coins.currency.btceur]).times(global.exchangeRates[coins.currency.btc]);
+			var exchangedAmt = parseFloat(Math.round(dec * 100) / 100).toFixed(2);
+			return addThousandsSeparators(exchangedAmt) + " €";
+		}
+		if (exchangeType.toLowerCase() === coins.currency.btc && global.exchangeRates[coins.currency.btc] != null) {
+			dec = dec.times(global.exchangeRates[coins.currency.btc])
 			var exchangedAmt = parseFloat(dec).toFixed(4);
 			return exchangedAmt + " BTC";
 		}
@@ -419,6 +424,27 @@ function refreshExchangeRates() {
 				}
 			} else {
 				logError("3825isdgij", {error:error, response:response, body:body});
+			}
+		});
+	}
+
+	if (coins[config.coin].exchangeRateDataBTCEUR) {
+		request(coins[config.coin].exchangeRateDataBTCEUR.jsonUrl, function(error, response, body) {
+			if (error == null && response && response.statusCode && response.statusCode == 200) {
+				var responseBody = JSON.parse(body);
+				var exchangeRate = coins[config.coin].exchangeRateDataBTCEUR.responseBodySelectorFunction(responseBody);
+				if (exchangeRate != null) {
+					if (global.exchangeRates === undefined) global.exchangeRates = {};
+					global.exchangeRates['btceur'] = exchangeRate;
+					global.exchangeRatesUpdateTime = new Date();
+
+					debugLog("Using exchange rates: " + JSON.stringify(global.exchangeRates) + " starting at " + global.exchangeRatesUpdateTime);
+
+				} else {
+					debugLog("Unable to get exchange rate data");
+				}
+			} else {
+				logError("utils:refreshExchangeRates", {error:error, response:response, body:body});
 			}
 		});
 	}

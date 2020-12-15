@@ -6,5 +6,13 @@ module.exports = {
 	"BTC": btc,
 	"LTC": ltc,
 
-	"coins":["BTCV", "BTC", "LTC"]
+	"coins":["BTCV", "BTC", "LTC"],
+	"currency": {
+		"eur": "eur",
+		"btc": "btc",
+		"btceur": "btceur",
+		"usd": "usd",
+		"usdt": "usdt",
+		"usdtusd": "usdtusd"
+	}
 };
