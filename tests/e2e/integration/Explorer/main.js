@@ -249,22 +249,6 @@ devices.forEach((device) => {
             });
         });
 
-        // it('should find transaction id in searchbar', () => {
-        //   cy.get(homepage.latestBlocks.height).click();
-        //   cy.get(blockheight.details.txid)
-        //     .invoke('text')
-        //     .then(($txid) => {
-        //       cy.get(homepage.header.searchBar).type(`${$txid}{enter}`);
-        //       cy.get(blockheight.details.jsonTab).click();
-        //       cy.get(blockheight.jsonTab.txid)
-        //         .invoke('text')
-        //         .then(($txid1) => {
-        //           const myVar = $txid1.replace(/['"]+/g, '');
-        //           expect(myVar).to.eq($txid);
-        //         });
-        //     });
-        // });
-
         it('should get alert: no results for query in searchbar', () => {
           const rand = Math.random().toString(36).substring(7);
           cy.get(homepage.header.searchBar).type(`${rand}{enter}`);
