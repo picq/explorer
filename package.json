@@ -7,7 +7,6 @@
   "scripts": {
     "start": "node ./bin/www",
     "refresh-mining-pool-configs": "node ./bin/refresh-mining-pool-configs.js",
-    "commit": "cz",
     "commit-retry": "npx cz --retry"
   },
   "keywords": [
