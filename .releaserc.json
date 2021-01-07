@@ -17,6 +17,6 @@
       "failTitle": true,
       "addReleases": "bottom"
     }],
-    ["@semantic-release/git", { "message": "Release v${nextRelease.version}" }]
+    ["@semantic-release/git", { "message": "chore(release): Release v${nextRelease.version}" }]
   ]
 }
