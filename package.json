@@ -18,7 +18,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitcoinvault/explorer.git"
+    "url": "git+https://github.com/picq/explorer.git"
   },
   "dependencies": {
     "async": "2.6.2",
@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^11.0.0",
+    "@semantic-release/git": "^9.0.0",
     "commitizen": "^4.2.2",
     "cz-conventional-changelog": "^3.3.0",
     "less": "3.9.0",
@@ -62,5 +63,14 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "branches": "master",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/git"
+    ]
   }
 }
