@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://github.com/picq/explorer/compare/v1.1.0...v1.1.1) (2021-01-07)
+
+
+### Bug Fixes
+
+* enable commitlint, after release with wrongly generated commit names ([013b082](https://github.com/picq/explorer/commit/013b0821eb5b87a32ddb5de163d74587feaf6bac))
+
 ## [1.1.0](https://github.com/picq/explorer/compare/v1.0.5...v1.1.0) (2021-01-07)
 
 
