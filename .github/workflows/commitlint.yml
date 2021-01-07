@@ -1,0 +1,37 @@
+name: "commitlint"
+
+on: [pull_request]
+
+jobs:
+  lint-commits:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version:
+          - 12
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Cache Dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-shrinkwrap-${{ hashFiles('npm-shrinkwrap.json') }}
+
+      - name: npm install
+        run: npm install
+
+      - name: commitlint
+        run: |
+          FIRST_COMMIT_SHA=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" ${{ github.event.pull_request.commits_url }} | jq -r '.[0].sha')
+          npx commitlint --from $FIRST_COMMIT_SHA^
